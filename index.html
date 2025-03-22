@@ -18,9 +18,7 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            background: #2c3e50;
         }
 
         @keyframes gradient {
@@ -41,9 +39,46 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(44, 62, 80, 0.98);
             z-index: -1;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+        }
+
+        .background-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            border-radius: 50%;
+            animation: bubbleFloat 8s infinite ease-in-out;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes bubbleFloat {
+            0% {
+                transform: translateY(100vh) scale(1);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1.2);
+                opacity: 0;
+            }
         }
 
         .floating-shapes {
@@ -58,10 +93,10 @@
 
         .shape {
             position: absolute;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             animation: float 8s infinite;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
         @keyframes float {
@@ -92,29 +127,58 @@
         .profile-section {
             text-align: center;
             margin-bottom: 3rem;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.5);
             padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-image-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1rem;
         }
 
         .profile-image {
-            width: 200px;
-            height: 200px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            margin-bottom: 1rem;
             border: 5px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+            transform: scale(1);
+        }
+
+        .profile-image.hover {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .profile-image-container:hover .profile-image {
+            transform: scale(1.05);
+        }
+
+        .profile-image-container:hover .profile-image.hover {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .about-section {
-            background-color: rgba(248, 249, 250, 0.8);
+            background-color: rgba(255, 255, 255, 0.5);
             padding: 2rem;
             border-radius: 10px;
             margin-bottom: 2rem;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .skills-section {
@@ -124,11 +188,13 @@
         }
 
         .skill-card {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.5);
             padding: 1.5rem;
             border-radius: 8px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         /* 增强卡片样式 */
@@ -178,10 +244,12 @@
         .gallery-section {
             margin: 4rem 0;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 15px;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .gallery-grid {
@@ -354,39 +422,64 @@
 </head>
 <body>
     <div class="background-overlay"></div>
+    <div class="background-lines" id="lines"></div>
     <div class="floating-shapes" id="shapes"></div>
     <header>
         <h1>欢迎来到我的个人主页</h1>
-        <p>Web开发者 | 设计师 | 创作者</p>
+        <p>开发 | 设计 | 创作</p>
     </header>
 
     <div class="container">
         <section class="profile-section">
-            <img src="https://github.com/fdarkstar/fds/blob/main/Fds.png" alt="个人照片" class="profile-image">
-            <h2>关于我</h2>
-            <p>这里是您的个人简介，可以描述您的专业背景、兴趣爱好等。</p>
+            <div class="profile-image-container">
+                <img src="https://i.hd-r.icu/07d8e9480220c5f9293f802961d90360.jpg" alt="个人照片" class="profile-image">
+                <img src="https://i.hd-r.icu/b907b20ea90ca024f8a29b9fc8a65ccd.jpg" alt="个人照片" class="profile-image hover">
+            </div>
+            <h2>F暗星</h2>
+            <p>重庆人,一外就读,擅长摄影,建模,编程,喜欢研究各种软件和硬件</p>
         </section>
 
         <section class="about-section">
             <h2>个人经历</h2>
-            <p>在这里添加您的教育背景、工作经历或其他重要经历。</p>
+            <p>1111</p>
         </section>
 
         <section class="skills-section">
             <div class="skill-card">
                 <h3>专业技能</h3>
                 <ul>
-                    <li>HTML5 / CSS3</li>
-                    <li>JavaScript</li>
-                    <li>响应式设计</li>
+                    <li>PCB layout</li>
+                    <li>Java</li>
+                    <li>C4D</li>
                 </ul>
             </div>
             <div class="skill-card">
-                <h3>项目经验</h3>
-                <ul>
-                    <li>项目一</li>
-                    <li>项目二</li>
-                    <li>项目三</li>
+                <h3>我在哪里</h3>
+                <ul style="list-style: none;">
+                    <li style="margin: 10px 0;">
+                        <a href="https://github.com/fdarkstar" target="_blank" style="color: #333; text-decoration: none; display: flex; align-items: center;">
+                            <img src="https://www.github.com/favicon.ico" alt="github" style="width: 20px; height: 20px; margin-right: 10px;">
+                            github
+                        </a>
+                    </li>
+                    <li style="margin: 10px 0;">
+                        <a href="https://v.douyin.com/MssOq7YbWJ4/ 4@2.com :0pm" target="_blank" style="color: #333; text-decoration: none; display: flex; align-items: center;">
+                            <img src="https://www.douyin.com/favicon.ico" alt="抖音" style="width: 20px; height: 20px; margin-right: 10px;">
+                            抖音生活号
+                        </a>
+                    </li>
+                    <li style="margin: 10px 0;">
+                        <a href=" https://v.douyin.com/anIKNKVTj6Q/ 0@8.com :5pm" target="_blank" style="color: #333; text-decoration: none; display: flex; align-items: center;">
+                            <img src="https://www.douyin.com/favicon.ico" alt="抖音" style="width: 20px; height: 20px; margin-right: 10px;">
+                            抖音发布号
+                        </a>
+                    </li>
+                    <li style="margin: 10px 0;">
+                        <a href="https://b23.tv/PMLdvTG" target="_blank" style="color: #333; text-decoration: none; display: flex; align-items: center;">
+                            <img src="https://www.bilibili.com/favicon.ico" alt="B站" style="width: 20px; height: 20px; margin-right: 10px;">
+                            哔哩哔哩
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="skill-card">
@@ -450,6 +543,42 @@
     </div>
 
     <script>
+        // 创建泡泡
+        function createBubbles() {
+            const bubblesContainer = document.getElementById('lines');
+            bubblesContainer.innerHTML = ''; // 清除所有现有内容
+            
+            const numberOfBubbles = 30;
+            
+            for (let i = 0; i < numberOfBubbles; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                // 随机生成泡泡属性
+                const size = Math.random() * 60 + 20; // 20-80px
+                const left = Math.random() * 100; // 0-100%
+                const delay = Math.random() * 5; // 0-5s延迟
+                const duration = Math.random() * 4 + 6; // 6-10s持续时间
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${left}%`;
+                bubble.style.animationDelay = `${delay}s`;
+                bubble.style.animationDuration = `${duration}s`;
+                
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+
+        // 页面加载时创建泡泡
+        window.addEventListener('load', () => {
+            createBubbles();
+            createShapes();
+        });
+
+        // 每隔一段时间重新生成泡泡，保持动画的随机性
+        setInterval(createBubbles, 20000);
+
         // 创建浮动形状
         function createShapes() {
             const shapesContainer = document.getElementById('shapes');
@@ -479,9 +608,6 @@
                 shape.style.transform = `translate(${x}px, ${y}px)`;
             });
         });
-
-        // 页面加载时创建形状
-        window.addEventListener('load', createShapes);
 
         // 图片查看器功能
         const viewer = document.querySelector('.image-viewer');
@@ -606,4 +732,3 @@
     </script>
 </body>
 </html>
-
