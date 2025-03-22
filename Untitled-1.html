@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: -1;
+            backdrop-filter: blur(10px);
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: float 8s infinite;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg) scale(1.1);
+            }
+        }
+
+        header {
+            background-color: rgba(44, 62, 80, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 5px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-section {
+            background-color: rgba(248, 249, 250, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .skills-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        /* 增强卡片样式 */
+        .skill-card, .profile-section, .about-section {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+
+        footer {
+            background-color: rgba(44, 62, 80, 0.8);
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* 增强鼠标跟随效果 */
+        .cursor, .cursor-follower {
+            display: none;
+        }
+
+        /* 增强点击特效 */
+        .click-effect {
+            display: none;
+        }
+
+        /* 增强悬停效果 */
+        .hover-effect::before {
+            display: none;
+        }
+
+        /* 增强光晕效果 */
+        .glow-effect {
+            display: none;
+        }
+
+        /* 摄影作品展示区域样式 */
+        .gallery-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(0, 0, 0, 0.5) 50%,
+                rgba(0, 0, 0, 0.7) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.4s ease;
+            padding: 1rem;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(3px);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        .gallery-description {
+            font-size: 1.1rem;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+            transition-delay: 0.1s;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            max-width: 80%;
+            line-height: 1.4;
+        }
+
+        .gallery-item:hover .gallery-title,
+        .gallery-item:hover .gallery-description {
+            transform: translateY(0);
+        }
+
+        /* 图片查看器样式 */
+        .image-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .viewer-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+        }
+
+        .viewer-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .viewer-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .viewer-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .viewer-prev {
+            left: -60px;
+        }
+
+        .viewer-next {
+            right: -60px;
+        }
+
+        .viewer-nav:hover {
+            color: #23a6d5;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .viewer-nav {
+                font-size: 1.5rem;
+            }
+
+            .viewer-prev {
+                left: -40px;
+            }
+
+            .viewer-next {
+                right: -40px;
+            }
+        }
+
+        /* 修改光源效果样式 */
+        .light-source {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.7;
+            filter: blur(15px);
+            transform: translate(-50%, -50%);
+            transition: all 0.05s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="floating-shapes" id="shapes"></div>
+    <header>
+        <h1>欢迎来到我的个人主页</h1>
+        <p>Web开发者 | 设计师 | 创作者</p>
+    </header>
+
+    <div class="container">
+        <section class="profile-section">
+            <img src="https://github.com/fdarkstar/fds/blob/main/Fds.png" alt="个人照片" class="profile-image">
+            <h2>关于我</h2>
+            <p>这里是您的个人简介，可以描述您的专业背景、兴趣爱好等。</p>
+        </section>
+
+        <section class="about-section">
+            <h2>个人经历</h2>
+            <p>在这里添加您的教育背景、工作经历或其他重要经历。</p>
+        </section>
+
+        <section class="skills-section">
+            <div class="skill-card">
+                <h3>专业技能</h3>
+                <ul>
+                    <li>HTML5 / CSS3</li>
+                    <li>JavaScript</li>
+                    <li>响应式设计</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>项目经验</h3>
+                <ul>
+                    <li>项目一</li>
+                    <li>项目二</li>
+                    <li>项目三</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>兴趣爱好</h3>
+                <ul>
+                    <li>阅读</li>
+                    <li>摄影</li>
+                    <li>旅行</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <h2>摄影作品</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-image="https://source.unsplash.com/random/800x800?nature">
+                    <img src="https://source.unsplash.com/random/800x800?nature" alt="自然风光">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">自然风光</h3>
+                        <p class="gallery-description">大自然的鬼斧神工</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-image="https://source.unsplash.com/random/800x800?city">
+                    <img src="https://source.unsplash.com/random/800x800?city" alt="城市景观">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">城市景观</h3>
+                        <p class="gallery-description">都市的繁华与宁静</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-image="https://source.unsplash.com/random/800x800?people">
+                    <img src="https://source.unsplash.com/random/800x800?people" alt="人文纪实">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">人文纪实</h3>
+                        <p class="gallery-description">记录生活的瞬间</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-image="https://source.unsplash.com/random/800x800?architecture">
+                    <img src="https://source.unsplash.com/random/800x800?architecture" alt="建筑摄影">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">建筑摄影</h3>
+                        <p class="gallery-description">凝固的艺术</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>联系方式：your.email@example.com</p>
+        <p>© 2024 我的个人主页. All rights reserved.</p>
+    </footer>
+
+    <!-- 图片查看器 -->
+    <div class="image-viewer">
+        <div class="viewer-content">
+            <span class="viewer-close">&times;</span>
+            <img class="viewer-image" src="" alt="查看大图">
+            <span class="viewer-nav viewer-prev">&lt;</span>
+            <span class="viewer-nav viewer-next">&gt;</span>
+        </div>
+    </div>
+
+    <script>
+        // 创建浮动形状
+        function createShapes() {
+            const shapesContainer = document.getElementById('shapes');
+            for (let i = 0; i < 15; i++) {
+                const shape = document.createElement('div');
+                shape.className = 'shape';
+                shape.style.width = Math.random() * 150 + 50 + 'px';
+                shape.style.height = shape.style.width;
+                shape.style.left = Math.random() * 100 + '%';
+                shape.style.top = Math.random() * 100 + '%';
+                shape.style.animationDelay = Math.random() * 5 + 's';
+                shape.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                shapesContainer.appendChild(shape);
+            }
+        }
+
+        // 鼠标移动视差效果
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            shapes.forEach(shape => {
+                const speed = 0.5;
+                const x = (mouseX - 0.5) * speed * 100;
+                const y = (mouseY - 0.5) * speed * 100;
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // 页面加载时创建形状
+        window.addEventListener('load', createShapes);
+
+        // 图片查看器功能
+        const viewer = document.querySelector('.image-viewer');
+        const viewerImage = viewer.querySelector('.viewer-image');
+        const closeBtn = viewer.querySelector('.viewer-close');
+        const prevBtn = viewer.querySelector('.viewer-prev');
+        const nextBtn = viewer.querySelector('.viewer-next');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentIndex = 0;
+
+        // 打开查看器
+        function openViewer(index) {
+            currentIndex = index;
+            const imageUrl = galleryItems[index].dataset.image;
+            viewerImage.src = imageUrl;
+            viewer.style.display = 'flex';
+            setTimeout(() => viewer.style.opacity = '1', 10);
+        }
+
+        // 关闭查看器
+        function closeViewer() {
+            viewer.style.opacity = '0';
+            setTimeout(() => viewer.style.display = 'none', 300);
+        }
+
+        // 上一张图片
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+            viewerImage.src = galleryItems[currentIndex].dataset.image;
+        }
+
+        // 下一张图片
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % galleryItems.length;
+            viewerImage.src = galleryItems[currentIndex].dataset.image;
+        }
+
+        // 事件监听
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openViewer(index));
+        });
+
+        closeBtn.addEventListener('click', closeViewer);
+        prevBtn.addEventListener('click', prevImage);
+        nextBtn.addEventListener('click', nextImage);
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (viewer.style.display === 'flex') {
+                if (e.key === 'Escape') closeViewer();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+            }
+        });
+
+        // 触摸滑动支持
+        let touchStartX = 0;
+        viewer.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        viewer.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextImage();
+                else prevImage();
+            }
+        });
+
+        // 优化光源和阴影效果
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        // 使用 requestAnimationFrame 实现平滑动画
+        function animate() {
+            // 平滑更新光源位置
+            currentX += (mouseX - currentX) * 0.2;
+            currentY += (mouseY - currentY) * 0.2;
+            lightSource.style.left = currentX + 'px';
+            lightSource.style.top = currentY + 'px';
+
+            // 更新所有卡片的阴影
+            document.querySelectorAll('.skill-card, .profile-section, .about-section').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cardCenterX = rect.left + rect.width / 2;
+                const cardCenterY = rect.top + rect.height / 2;
+                
+                // 计算光源相对于卡片中心的位置
+                const deltaX = currentX - cardCenterX;
+                const deltaY = currentY - cardCenterY;
+                
+                // 计算阴影偏移量（增加响应度）
+                const shadowX = deltaX * 0.08;
+                const shadowY = deltaY * 0.08;
+                
+                // 计算阴影模糊度（根据距离动态调整）
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const blur = Math.min(60, Math.max(15, distance * 0.15));
+                
+                // 计算阴影透明度（根据距离动态调整）
+                const opacity = Math.min(0.3, Math.max(0.1, 1 - distance / 1000));
+                
+                // 应用动态阴影
+                card.style.boxShadow = `${shadowX}px ${shadowY}px ${blur}px rgba(0, 0, 0, ${opacity})`;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // 更新鼠标位置
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // 启动动画
+        animate();
+    </script>
+</body>
+</html>
