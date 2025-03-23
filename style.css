@@ -1,3 +1,17 @@
+:root {
+    --bg-color: #2c3e50;
+    --text-color: #333;
+    --card-bg: rgba(255, 255, 255, 0.5);
+    --border-color: rgba(255, 255, 255, 0.5);
+}
+
+.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --border-color: rgba(255, 255, 255, 0.15);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,11 +21,12 @@
 body {
     font-family: 'Microsoft YaHei', sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: var(--text-color);
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-    background: #2c3e50;
+    background: var(--bg-color);
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 @keyframes gradient {
@@ -32,7 +47,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(44, 62, 80, 0.98);
+    background: var(--bg-color);
+    opacity: 0.98;
     z-index: -1;
     backdrop-filter: blur(15px);
 }
@@ -102,12 +118,14 @@ body {
 }
 
 header {
-    background-color: rgba(44, 62, 80, 0.8);
-    color: white;
+    background-color: var(--bg-color);
+    opacity: 0.8;
+    color: var(--text-color);
     text-align: center;
     padding: 2rem 0;
     backdrop-filter: blur(5px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -120,13 +138,14 @@ header {
 .profile-section {
     text-align: center;
     margin-bottom: 3rem;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--card-bg);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border-color);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .profile-image-container {
@@ -164,14 +183,15 @@ header {
 }
 
 .about-section {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: var(--card-bg);
     padding: 2rem;
     border-radius: 10px;
     margin-bottom: 2rem;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border-color);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .skills-section {
@@ -181,22 +201,25 @@ header {
 }
 
 .skill-card {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: var(--card-bg);
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border-color);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 footer {
-    background-color: rgba(44, 62, 80, 0.8);
-    color: white;
+    background-color: var(--bg-color);
+    opacity: 0.8;
+    color: var(--text-color);
     text-align: center;
     padding: 1rem 0;
     margin-top: 2rem;
     backdrop-filter: blur(5px);
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 @media (max-width: 768px) {
@@ -208,12 +231,13 @@ footer {
 .gallery-section {
     margin: 4rem 0;
     padding: 2rem;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--card-bg);
     border-radius: 15px;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border-color);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .gallery-grid {
@@ -366,4 +390,71 @@ footer {
     .viewer-next {
         right: -40px;
     }
+}
+
+/* 黑夜模式切换按钮样式 */
+.theme-switch-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch input {
+    display:none;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* 固定白色标题样式 */
+.header-text, .subtitle-text {
+  color: white !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 黑夜模式下的社交媒体链接 */
+.dark-mode .skill-card a {
+  color: var(--text-color) !important;
 }
