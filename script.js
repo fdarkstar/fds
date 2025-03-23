@@ -131,3 +131,32 @@ window.addEventListener('resize', () => {
     createLines();
     createFloatingShapes();
 });
+
+// 黑夜模式切换功能
+const themeSwitch = document.querySelector('.theme-switch input');
+const body = document.body;
+
+// 检查本地存储的主题偏好
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    body.classList.toggle('dark-mode', savedTheme === 'dark');
+    themeSwitch.checked = savedTheme === 'dark';
+}
+
+// 切换主题
+themeSwitch.addEventListener('change', function() {
+    if (this.checked) {
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    }
+});
+
+// 初始化主题
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    themeSwitch.checked = true;
+    body.classList.add('dark-mode');
+    localStorage.setItem('theme', 'dark');
+}
