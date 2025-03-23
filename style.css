@@ -217,11 +217,11 @@ footer {
 }
 
 .gallery-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
     padding: 1rem;
+    overflow: visible;
 }
 
 .gallery-item {
@@ -230,8 +230,7 @@ footer {
     border-radius: 10px;
     cursor: pointer;
     aspect-ratio: 1;
-    flex: 0 0 300px;
-    scroll-snap-align: start;
+    width: 100%;
 }
 
 .gallery-item img {
