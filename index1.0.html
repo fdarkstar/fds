@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="background-lines" id="lines"></div>
+    <div class="floating-shapes" id="shapes"></div>
+    <header>
+        <h1>欢迎来到我的个人主页</h1>
+        <p>开发 | 设计 | 创作</p>
+    </header>
+
+    <div class="container">
+        <section class="profile-section">
+            <div class="profile-image-container">
+                <img src="https://i.hd-r.icu/07d8e9480220c5f9293f802961d90360.jpg" alt="个人照片" class="profile-image">
+                <img src="https://i.hd-r.icu/b907b20ea90ca024f8a29b9fc8a65ccd.jpg" alt="个人照片" class="profile-image hover">
+            </div>
+            <h2>F暗星</h2>
+            <p>重庆人,一外就读。擅长摄影,建模,编程,喜欢研究各种软件和硬件</p>
+        </section>
+
+        <section class="about-section">
+            <h2>个人经历</h2>
+            <p>1111</p>
+        </section>
+
+        <section class="skills-section">
+            <div class="skill-card">
+                <h3>专业技能</h3>
+                <ul>
+                    <li>PCB layout</li>
+                    <li>Java</li>
+                    <li>C4D</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>我在哪里</h3>
+                <ul style="list-style: none;">
+                    <li style="margin: 10px 0;">
+                        <a href="https://github.com/fdarkstar" target="_blank" style="color: #333; text-decoration: none; display: flex; align-items: center;">
+                            <img src="https://www.github.com/favicon.ico" alt="github" style="width: 20px; height: 20px; margin-right: 10px;">
+                            github
+                        </a>
+                    </li>
+                    <li style="margin: 10px 0;">
+                        <a href="https://v.douyin.com/MssOq7YbWJ4/ 4@2.com :0pm" target="_blank" style="color: #333; text-decoration: none; display: flex; align-items: center;">
+                            <img src="https://www.douyin.com/favicon.ico" alt="抖音" style="width: 20px; height: 20px; margin-right: 10px;">
+                            抖音生活号
+                        </a>
+                    </li>
+                    <li style="margin: 10px 0;">
+                        <a href=" https://v.douyin.com/anIKNKVTj6Q/ 0@8.com :5pm" target="_blank" style="color: #333; text-decoration: none; display: flex; align-items: center;">
+                            <img src="https://www.douyin.com/favicon.ico" alt="抖音" style="width: 20px; height: 20px; margin-right: 10px;">
+                            抖音发布号
+                        </a>
+                    </li>
+                    <li style="margin: 10px 0;">
+                        <a href="https://b23.tv/PMLdvTG" target="_blank" style="color: #333; text-decoration: none; display: flex; align-items: center;">
+                            <img src="https://www.bilibili.com/favicon.ico" alt="B站" style="width: 20px; height: 20px; margin-right: 10px;">
+                            哔哩哔哩
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>兴趣爱好</h3>
+                <ul>
+                    <li>阅读</li>
+                    <li>摄影</li>
+                    <li>旅行</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <h2>摄影作品</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-image="https://source.unsplash.com/random/800x800?nature">
+                    <img src="https://source.unsplash.com/random/800x800?nature" alt="自然风光">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">自然风光</h3>
+                        <p class="gallery-description">大自然的鬼斧神工</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-image="https://source.unsplash.com/random/800x800?city">
+                    <img src="https://source.unsplash.com/random/800x800?city" alt="城市景观">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">城市景观</h3>
+                        <p class="gallery-description">都市的繁华与宁静</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-image="https://source.unsplash.com/random/800x800?people">
+                    <img src="https://source.unsplash.com/random/800x800?people" alt="人文纪实">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">人文纪实</h3>
+                        <p class="gallery-description">记录生活的瞬间</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>联系方式：your.email@example.com</p>
+        <p>© 2024 我的个人主页. All rights reserved.</p>
+    </footer>
+
+    <!-- 图片查看器 -->
+    <div class="image-viewer">
+        <div class="viewer-content">
+            <span class="viewer-close">&times;</span>
+            <img class="viewer-image" src="" alt="查看大图">
+            <span class="viewer-nav viewer-prev"><</span>
+            <span class="viewer-nav viewer-next">></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
