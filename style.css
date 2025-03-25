@@ -27,6 +27,10 @@ body {
     overflow-x: hidden;
     background: var(--bg-color);
     transition: background 0.3s ease, color 0.3s ease;
+    perspective: 1px;
+    transform-style: preserve-3d;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 @keyframes gradient {
@@ -51,6 +55,7 @@ body {
     opacity: 0.98;
     z-index: -1;
     backdrop-filter: blur(15px);
+    transform: translateZ(-1px) scale(2);
 }
 
 .background-lines {
@@ -62,6 +67,7 @@ body {
     pointer-events: none;
     z-index: -1;
     overflow: hidden;
+    transform: translateZ(-0.5px) scale(1.5);
 }
 
 .bubble {
@@ -133,6 +139,8 @@ header {
     margin: 0 auto;
     padding: 2rem;
     position: relative;
+    transform: translateZ(0);
+    z-index: 1;
 }
 
 .profile-section {
@@ -146,6 +154,8 @@ header {
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border-color);
     transition: background 0.3s ease, border-color 0.3s ease;
+    transform: translateZ(0.2px);
+    z-index: 2;
 }
 
 .profile-image-container {
@@ -191,13 +201,24 @@ header {
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border-color);
-    transition: background 0.3s ease, border-color 0.3s ease;
+    transition: all 0.5s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transform: perspective(1000px) rotateY(0deg) translateZ(0.1px);
+    z-index: 1;
+}
+
+.about-section:hover {
+    transform: perspective(1000px) rotateY(5deg);
+    box-shadow: 5px 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 .skills-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
+    transform: translateZ(0.15px);
+    z-index: 1;
 }
 
 .skill-card {
@@ -208,7 +229,15 @@ header {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border-color);
-    transition: background 0.3s ease, border-color 0.3s ease;
+    transition: all 0.5s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transform: perspective(1000px) rotateY(0deg);
+}
+
+.skill-card:hover {
+    transform: perspective(1000px) rotateY(15deg);
+    box-shadow: 5px 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 footer {
@@ -220,11 +249,62 @@ footer {
     margin-top: 2rem;
     backdrop-filter: blur(5px);
     transition: background 0.3s ease, color 0.3s ease;
+    transform: translateZ(0.05px);
+    z-index: 1;
 }
 
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
+    }
+    
+    /* Mobile-specific optimizations */
+    .profile-section, .about-section, .gallery-section {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .skill-card {
+        transform: none !important;
+    }
+    
+    .shape, .bubble {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0.5rem;
+    }
+    
+    .profile-section, .about-section, .gallery-section {
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .profile-image-container {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (hover: none) {
+    .gallery-item:hover .gallery-overlay {
+        opacity: 0.8;
+    }
+    
+    .skill-card:hover {
+        transform: none;
+    }
+    
+    .about-section:hover {
+        transform: none;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 }
 
@@ -238,6 +318,8 @@ footer {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border-color);
     transition: background 0.3s ease, border-color 0.3s ease;
+    transform: translateZ(0.1px);
+    z-index: 1;
 }
 
 .gallery-grid {
@@ -392,60 +474,59 @@ footer {
     }
 }
 
-/* 黑夜模式切换按钮样式 */
+/* 主题切换按钮样式 */
 .theme-switch-wrapper {
     position: absolute;
     top: 20px;
-    right: 20px;
+    left: 20px;
 }
 
-.theme-switch {
-    display: inline-block;
-    height: 34px;
+.theme-toggle {
     position: relative;
     width: 60px;
-}
-
-.theme-switch input {
-    display:none;
-}
-
-.slider {
-    background-color: #ccc;
-    bottom: 0;
-    cursor: pointer;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: .4s;
-}
-
-.slider:before {
-    background-color: #fff;
-    bottom: 4px;
-    content: "";
-    height: 26px;
-    left: 4px;
-    position: absolute;
-    transition: .4s;
-    width: 26px;
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
+    height: 60px;
     border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle i {
+    position: absolute;
+    font-size: 24px;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle .fa-sun {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+.theme-toggle .fa-moon {
+    opacity: 0;
+    transform: rotate(-90deg);
+}
+
+.dark-mode .theme-toggle .fa-sun {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+
+.dark-mode .theme-toggle .fa-moon {
+    opacity: 1;
+    transform: rotate(0deg);
 }
 
 /* 固定白色标题样式 */
@@ -457,4 +538,177 @@ input:checked + .slider:before {
 /* 黑夜模式下的社交媒体链接 */
 .dark-mode .skill-card a {
   color: var(--text-color) !important;
+}
+
+/* 天气显示样式 */
+.weather-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    width: 120px;
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.weather-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.weather-icon {
+    font-size: 1.5rem;
+}
+
+.temperature {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.weather-description {
+    font-size: 0.7rem;
+    text-transform: capitalize;
+}
+
+.city-search {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.city-input {
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: inherit;
+}
+
+.weather-loading,
+.weather-error {
+    padding: 10px;
+    text-align: center;
+}
+
+.weather-error button {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.dark-mode .weather-container {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: white;
+    border: 1px solid rgba(4, 4, 4, 0.062);
+}
+
+/* 粒子系统样式 */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: floatParticle 15s infinite linear;
+    opacity: 0.7;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(100vw, 100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 3D立方体样式 */
+.cube-container {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 200px;
+    height: 200px;
+    perspective: 1000px;
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotateCube 15s infinite linear;
+}
+
+.cube-face {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    backdrop-filter: blur(5px);
+}
+
+.cube-face.front {
+    transform: rotateY(0deg) translateZ(100px);
+    background: rgba(23, 162, 184, 0.3);
+}
+.cube-face.back {
+    transform: rotateY(180deg) translateZ(100px);
+    background: rgba(108, 117, 125, 0.3);
+}
+.cube-face.right {
+    transform: rotateY(90deg) translateZ(100px);
+    background: rgba(40, 167, 69, 0.3);
+}
+.cube-face.left {
+    transform: rotateY(-90deg) translateZ(100px);
+    background: rgba(220, 53, 69, 0.3);
+}
+.cube-face.top {
+    transform: rotateX(90deg) translateZ(100px);
+    background: rgba(255, 193, 7, 0.3);
+}
+.cube-face.bottom {
+    transform: rotateX(-90deg) translateZ(100px);
+    background: rgba(111, 66, 193, 0.3);
+}
+
+@keyframes rotateCube {
+    from {
+        transform: rotateX(0) rotateY(0);
+    }
+    to {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
 }
