@@ -148,7 +148,14 @@ function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 position => resolve(position.coords),
-                error => reject(error)
+                error => {
+                    // 区分用户拒绝和其他错误
+                    if (error.code === error.PERMISSION_DENIED) {
+                        reject(new Error('USER_DENIED'));
+                    } else {
+                        reject(error);
+                    }
+                }
             );
         } else {
             reject(new Error('Geolocation is not supported'));
@@ -217,7 +224,6 @@ function updateWeatherDisplay(data) {
     `;
 }
 
-
 // 初始化天气
 async function initWeather() {
     try {
@@ -230,11 +236,14 @@ async function initWeather() {
         ]);
         
         updateWeatherDisplay(weatherData);
-        // 可以在这里处理预报数据...
     } catch (error) {
         console.error('Error initializing weather:', error);
-        weatherContainer.innerHTML = '<div class="weather-error">无法获取天气信息</div>';
-        setTimeout(initWeather, 3000);
+        if (error.message === 'USER_DENIED') {
+            weatherContainer.innerHTML = '<div class="weather-error">需要位置权限才能获取天气信息</div>';
+        } else {
+            weatherContainer.innerHTML = '<div class="weather-error">无法获取天气信息</div>';
+            setTimeout(initWeather, 3000);
+        }
     }
 }
 
