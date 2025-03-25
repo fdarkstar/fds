@@ -271,6 +271,29 @@ footer {
     .shape, .bubble {
         display: none;
     }
+
+    header {
+        padding-top: 9.125rem;
+    }
+
+    .header-text, .subtitle-text {
+        position: relative;
+        top: -50px;
+    }
+
+    /* 移动端天气组件优化 */
+    .weather-container {
+        width: 80px;
+        top: 10px;
+        right: 10px;
+        padding: 5px;
+    }
+
+    .weather-error {
+        padding: 5px;
+        font-size: 0.7rem;
+        margin-top: 5px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -290,6 +313,10 @@ footer {
     
     .gallery-grid {
         grid-template-columns: 1fr;
+    }
+
+    header {
+        padding-top: 9.125rem;
     }
 }
 
@@ -541,6 +568,16 @@ footer {
 }
 
 /* 天气显示样式 */
+.weather-error {
+    padding: 10px;
+    text-align: center;
+    color: white;
+    background-color: rgba(255, 0, 0, 0.2);
+    border-radius: 5px;
+    margin-top: 10px;
+    backdrop-filter: blur(5px);
+}
+
 .weather-container {
     position: fixed;
     top: 20px;
