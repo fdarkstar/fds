@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的个人主页</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
 </head>
 <body>
     <div class="background-overlay"></div>
@@ -14,10 +16,21 @@
         <h1 class="header-text">欢迎来到我的个人主页</h1>
         <p class="subtitle-text">开发 | 设计 | 创作</p>
         <div class="theme-switch-wrapper">
-            <label class="theme-switch" for="theme-checkbox">
-                <input type="checkbox" id="theme-checkbox">
-                <div class="slider round"></div>
-            </label>
+            <button class="theme-toggle" aria-label="切换主题">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        <div class="weather-container">
+            <div class="weather-info">
+                <i class="weather-icon sunny fas fa-sun"></i>
+                <span class="temperature">25°C</span>
+                <span class="weather-description">晴天</span>
+            </div>
+            <div class="weather-details">
+                <span class="humidity"></span>
+                <span class="wind"></span>
+            </div>
         </div>
     </header>
 
@@ -113,9 +126,26 @@
     </div>
 
     <footer>
-        <p>联系方式：fdarkstar@outlook.com</p>
-        <p>© 2024 fdarkstar. All rights reserved.</p>
+        <p>联系方式：your.email@example.com</p>
+        <p>© 2024 我的个人主页. All rights reserved.</p>
     </footer>
+
+    <!-- 粒子系统Canvas -->
+    <div class="particles-container">
+        <canvas id="particles-canvas"></canvas>
+    </div>
+
+    <!-- 3D立方体效果 -->
+    <div class="cube-container">
+        <div class="cube">
+            <div class="face front"></div>
+            <div class="face back"></div>
+            <div class="face right"></div>
+            <div class="face left"></div>
+            <div class="face top"></div>
+            <div class="face bottom"></div>
+        </div>
+    </div>
 
     <!-- 图片查看器 -->
     <div class="image-viewer">
